@@ -19,7 +19,10 @@ const generateURL = () => {
 };
 
 const browserOptions = async page => {
-  await page.setViewport({ width, height });
+  await page.setViewport({
+    width,
+    height
+  });
   await page.emulate(iPhone);
   // await page.setRequestInterception(true);
   // await page.on('request', req => {
@@ -56,7 +59,9 @@ const haveLogin = async page => {
 
 const accessChoice = async page => {
   await page.goto(generateURL());
-  await page.waitFor('.link > em', { timeout: 30000 });
+  await page.waitFor('.link > em', {
+    timeout: 30000
+  });
   await page.addScriptTag({
     path: require.resolve('jquery')
   });
@@ -76,9 +81,9 @@ const getLinks = async page => {
       .toArray()
       .map(
         link =>
-          $(link)
-            .attr('data-oninitialize')
-            .split(`'`)[1]
+        $(link)
+        .attr('data-oninitialize')
+        .split(`'`)[1]
       );
     return res;
   });
@@ -86,12 +91,17 @@ const getLinks = async page => {
 
 const goToPost = async (page, link) => {
   await page.goto(link);
-  await page.waitForSelector('.choiceButton', { timeout: 30000 });
+  await page.waitForSelector('.choiceButton', {
+    timeout: 30000
+  });
   await page.evaluate(() => {
     const $ = window.$;
     $('#0').click();
     $('.choiceButton').click();
+    // 이부분에 alert 닫는거 넣기
+    // 키보드 esc 눌러서 ㅎㅎ
   });
+  await page.keyboard.press('Enter')
 };
 
 const init = async () => {

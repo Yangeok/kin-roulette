@@ -25,7 +25,7 @@ const init = async () => {
 const useRoulette = async page => {
   await page.goto('https://m.kin.naver.com/mobile/roulette/home.nhn');
   let isNull = false;
-  console.log(isNull);
+  // console.log(isNull);
 
   const count = await page.evaluate(() => {
     const $ = window.$;
@@ -36,7 +36,7 @@ const useRoulette = async page => {
     isNull = true;
   }
 
-  console.log(isNull);
+  // console.log(isNull);
   if (!isNull) {
     await page.evaluate(() => {
       const $ = window.$;
@@ -48,7 +48,10 @@ const useRoulette = async page => {
 };
 
 const browserOptions = async page => {
-  await page.setViewport({ width, height });
+  await page.setViewport({
+    width,
+    height
+  });
   await page.emulate(iPhone);
   // await page.setRequestInterception(true);
   // await page.on('request', req => {
