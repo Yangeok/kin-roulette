@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
-const width = 783,
-  height = 700;
+const width = 400,
+  height = 838;
 const options = {
   headless: false,
   slowMo: true,
@@ -11,7 +11,7 @@ const options = {
     '--disable-setuid-sandbox'
   ]
 };
-const iPhone = puppeteer.devices['iPhone 6'];
+const iPhone = puppeteer.devices['iPhone X'];
 
 const init = async () => {
   const browser = await puppeteer.launch(options);
@@ -83,8 +83,11 @@ const haveLogin = async page => {
   );
   await page.click('.btn_global');
   await page.waitForNavigation();
-  await page.click('.btn_cancel');
-  await page.waitForNavigation();
+  // const isExistCancelButton = await page.$eval('.btn_cancel')
+  // if (isExistCancelButton) {
+  //   await page.click('.btn_cancel');
+  //   await page.waitForNavigation();
+  // }
 };
 
 init();

@@ -3,7 +3,7 @@
 echo "--------------"
 echo "<GET ROULETTE>"
 echo "--------------"
-echo -e "아이디:"
+echo -n "아이디:"
 read ID
 
 echo -n "비밀번호: "
