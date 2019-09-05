@@ -54,7 +54,8 @@ const haveLogin = async page => {
   );
   await page.click('.btn_global');
   await page.waitForNavigation();
-  const isExistCancelButton = await page.$eval('.btn_cancel')
+
+  const isExistCancelButton = await page.evaluate(() => location.href)
   if (isExistCancelButton) {
     await page.click('.btn_cancel');
     await page.waitForNavigation();
@@ -102,10 +103,10 @@ const goToPost = async (page, link) => {
     const $ = window.$;
     $('#0').click();
     $('.choiceButton').click();
-    // 이부분에 alert 닫는거 넣기
-    // 키보드 esc 눌러서 ㅎㅎ
   });
-  await page.keyboard.press('Enter')
+  // alert창 처리하는 부분
+  // await page.keyboard.press('Enter')
+  await page.type(String.fromCharCode(13));
 };
 
 const init = async () => {

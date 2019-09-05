@@ -83,11 +83,12 @@ const haveLogin = async page => {
   );
   await page.click('.btn_global');
   await page.waitForNavigation();
-  // const isExistCancelButton = await page.$eval('.btn_cancel')
-  // if (isExistCancelButton) {
-  //   await page.click('.btn_cancel');
-  //   await page.waitForNavigation();
-  // }
+
+  const isExistCancelButton = await page.evaluate(() => location.href)
+  if (isExistCancelButton) {
+    await page.click('.btn_cancel');
+    await page.waitForNavigation();
+  }
 };
 
 init();
