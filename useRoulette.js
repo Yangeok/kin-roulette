@@ -68,8 +68,9 @@ const browserOptions = async page => {
 };
 
 const haveLogin = async page => {
-  const naverId = 'wooky92';
-  const naverPw = '60716071w!';
+  const env = process.env
+  const naverId = env.ID;
+  const naverPw = env.PW;
 
   await page.goto('https://nid.naver.com/nidlogin.login');
   await page.evaluate(
