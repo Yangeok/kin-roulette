@@ -120,7 +120,8 @@ const init = async () => {
     // for (const link of links) {
     for (const link of await getLinks(page)) {
       console.log(link);
-      // 퍼센티지 코드 작성해보리기
+
+      // 퍼센티지 코드 작성하기
       await goToPost(page, link);
     }
 
