@@ -85,7 +85,8 @@ const haveLogin = async page => {
   await page.waitForNavigation();
 
   const isExistCancelButton = await page.evaluate(() => location.href)
-  if (isExistCancelButton) {
+  console.log(isExistCancelButton)
+  if (isExistCancelButton !== 'https://m.naver.com/') {
     await page.click('.btn_cancel');
     await page.waitForNavigation();
   }

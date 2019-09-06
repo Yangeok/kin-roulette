@@ -56,7 +56,8 @@ const haveLogin = async page => {
   await page.waitForNavigation();
 
   const isExistCancelButton = await page.evaluate(() => location.href)
-  if (isExistCancelButton) {
+  console.log(isExistCancelButton)
+  if (isExistCancelButton !== 'https://m.naver.com/') {
     await page.click('.btn_cancel');
     await page.waitForNavigation();
   }
@@ -104,21 +105,27 @@ const goToPost = async (page, link) => {
     $('#0').click();
     $('.choiceButton').click();
   });
-  // alert창 처리하는 부분
-  // await page.keyboard.press('Enter')
-  await page.type(String.fromCharCode(13));
+  await page.keyboard.press('Enter')
 };
 
 const init = async () => {
   const browser = await puppeteer.launch(options);
   const page = await browser.newPage();
 
-  await browserOptions(page);
-  await haveLogin(page);
-  await accessChoice(page);
-  for (const link of await getLinks(page)) {
-    console.log(link);
-    await goToPost(page, link);
+  try {
+    await browserOptions(page);
+    await haveLogin(page);
+    await accessChoice(page);
+    // const links = await getLinks(page)
+    // for (const link of links) {
+    for (const link of await getLinks(page)) {
+      console.log(link);
+      // 퍼센티지 코드 작성해보리기
+      await goToPost(page, link);
+    }
+
+  } catch (err) {
+    console.log(err)
   }
 };
 
