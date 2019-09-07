@@ -7,13 +7,14 @@ echo "--------------------"
 echo ""
 echo -n "> Username: "
 read ID
+echo ""
 echo -n "> Password: "
 stty -echo
 read PW
 stty echo
 echo ""
 echo ""
-echo "> Configure execution file"
+echo "> Have a choice"
 echo -n "( 1: Get roulettes / 2: Use roulettes ): "
 
 read ENV
