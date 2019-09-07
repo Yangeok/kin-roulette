@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+var ProgressBar = require('progress');
 
 const width = 400,
   height = 838;
@@ -12,34 +13,50 @@ const options = {
   ]
 };
 const iPhone = puppeteer.devices['iPhone X'];
-const host = 'https://m.kin.naver.com/mobile/choice';
 
-const generateURL = () => {
-  return `${host}/list?dirId=8`;
+const goToPost = async (page, link) => {
+  await page.goto(link);
+  await page.waitForSelector('.choiceButton', { timeout: 30000 });
+  await page.evaluate(() => {
+    const $ = window.$;
+    $('#0').click();
+    $('.choiceButton').click();
+  });
+  await page.keyboard.press('Enter');
 };
 
-const browserOptions = async page => {
-  await page.setViewport({
-    width,
-    height
+const getLinks = async page => {
+  return await page.evaluate(() => {
+    const $ = window.$;
+    const res = $('a.item_socialplugin--2Rewd')
+      .toArray()
+      .map((link, index) => {
+        return {
+          url: $(link)
+            .attr('data-oninitialize')
+            .split(`'`)[1],
+          index
+        };
+      });
+    return res;
   });
-  await page.emulate(iPhone);
-  // await page.setRequestInterception(true);
-  // await page.on('request', req => {
-  //   if (
-  //     req.resourceType() == 'stylesheet' ||
-  //     req.resourceType() == 'font' ||
-  //     req.resourceType() == 'image'
-  //   ) {
-  //     req.abort();
-  //   } else {
-  //     req.continue();
-  //   }
-  // });
+};
+
+const accessChoice = async page => {
+  await page.goto('https://m.kin.naver.com/mobile/choice/list?dirId=8');
+  await page.waitFor('.link > em', { timeout: 30000 });
+  await page.addScriptTag({ path: require.resolve('jquery') });
+  await page.evaluate(() => {
+    const $ = window.$;
+    for (let i = 1; i < 20; i++) {
+      $('.link > em').click();
+    }
+  });
+  await page.waitFor(10000);
 };
 
 const haveLogin = async page => {
-  const env = process.env
+  const env = process.env;
   const naverId = env.ID;
   const naverPw = env.PW;
 
@@ -55,57 +72,16 @@ const haveLogin = async page => {
   await page.click('.btn_global');
   await page.waitForNavigation();
 
-  const isExistCancelButton = await page.evaluate(() => location.href)
-  console.log(isExistCancelButton)
+  const isExistCancelButton = await page.evaluate(() => location.href);
   if (isExistCancelButton !== 'https://m.naver.com/') {
     await page.click('.btn_cancel');
     await page.waitForNavigation();
   }
 };
 
-const accessChoice = async page => {
-  await page.goto(generateURL());
-  await page.waitFor('.link > em', {
-    timeout: 30000
-  });
-  await page.addScriptTag({
-    path: require.resolve('jquery')
-  });
-  await page.evaluate(() => {
-    const $ = window.$;
-    for (let i = 1; i < 20; i++) {
-      $('.link > em').click();
-    }
-  });
-  await page.waitFor(10000);
-};
-
-const getLinks = async page => {
-  return await page.evaluate(() => {
-    const $ = window.$;
-    const res = $('a.item_socialplugin--2Rewd')
-      .toArray()
-      .map(
-        link =>
-        $(link)
-        .attr('data-oninitialize')
-        .split(`'`)[1]
-      );
-    return res;
-  });
-};
-
-const goToPost = async (page, link) => {
-  await page.goto(link);
-  await page.waitForSelector('.choiceButton', {
-    timeout: 30000
-  });
-  await page.evaluate(() => {
-    const $ = window.$;
-    $('#0').click();
-    $('.choiceButton').click();
-  });
-  await page.keyboard.press('Enter')
+const browserOptions = async page => {
+  await page.setViewport({ width, height });
+  await page.emulate(iPhone);
 };
 
 const init = async () => {
@@ -116,17 +92,16 @@ const init = async () => {
     await browserOptions(page);
     await haveLogin(page);
     await accessChoice(page);
-    // const links = await getLinks(page)
-    // for (const link of links) {
     for (const link of await getLinks(page)) {
-      console.log(link);
-
-      // 퍼센티지 코드 작성하기
-      await goToPost(page, link);
+      const bar = new ProgressBar(' [:bar] :percent :current/:total', {
+        total: 200,
+        width: 50
+      });
+      bar.tick(link.index);
+      await goToPost(page, link.url);
     }
-
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 };
 
