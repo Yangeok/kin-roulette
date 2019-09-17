@@ -36,14 +36,26 @@ do
 done
 stty echo
 echo ""
-echo "> Have a choice"
-echo -n "( 1: Get roulettes / 2: Use roulettes ): "
+# echo "> Have a choice"
+# echo -n "( 1: Get roulettes / 2: Use roulettes ): "
 
-read ENV
-if [ $ENV -eq  1 ]
-then
-  ID=$ID PW=$PW node getRoulette.js 
-elif [ $ENV -eq 2 ]
-then
-  ID=$ID PW=$PW node useRoulette.js 
-fi
+# read ENV
+# if [ $ENV -eq  1 ]
+# then
+#   ID=$ID PW=$PW node getRoulette.js 
+# elif [ $ENV -eq 2 ]
+# then
+#   ID=$ID PW=$PW node useRoulette.js 
+# fi
+echo ""
+echo "> Get roulettes"
+ID=$ID PW=$PW node getRoulette.js
+
+echo "> Use roulettes"
+ID=$ID PW=$PW node useRoulette.js
+
+echo ""
+function pause(){
+  read -p "$*"
+}
+pause '> Press enter key...'

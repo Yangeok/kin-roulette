@@ -16,7 +16,9 @@ const iPhone = puppeteer.devices['iPhone X'];
 
 const goToPost = async (page, link) => {
   await page.goto(link);
-  await page.waitForSelector('.choiceButton', { timeout: 30000 });
+  await page.waitForSelector('.choiceButton', {
+    timeout: 30000
+  });
   await page.evaluate(() => {
     const $ = window.$;
     $('#0').click();
@@ -44,8 +46,12 @@ const getLinks = async page => {
 
 const accessChoice = async page => {
   await page.goto('https://m.kin.naver.com/mobile/choice/list?dirId=8');
-  await page.waitFor('.link > em', { timeout: 30000 });
-  await page.addScriptTag({ path: require.resolve('jquery') });
+  await page.waitFor('.link > em', {
+    timeout: 30000
+  });
+  await page.addScriptTag({
+    path: require.resolve('jquery')
+  });
   await page.evaluate(() => {
     const $ = window.$;
     for (let i = 1; i < 20; i++) {
@@ -80,7 +86,10 @@ const haveLogin = async page => {
 };
 
 const browserOptions = async page => {
-  await page.setViewport({ width, height });
+  await page.setViewport({
+    width,
+    height
+  });
   await page.emulate(iPhone);
 };
 
@@ -102,6 +111,8 @@ const init = async () => {
     }
   } catch (err) {
     console.log(err);
+  } finally {
+    await browser.close()
   }
 };
 

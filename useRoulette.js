@@ -67,7 +67,10 @@ const haveLogin = async page => {
 };
 
 const browserOptions = async page => {
-  await page.setViewport({ width, height });
+  await page.setViewport({
+    width,
+    height
+  });
   await page.emulate(iPhone);
 };
 
@@ -77,7 +80,13 @@ const init = async () => {
 
   await browserOptions(page);
   await haveLogin(page);
-  await useRoulette(page);
+  try {
+    await useRoulette(page);
+  } catch (err) {
+    console.log(err)
+  } finally {
+    await browser.close()
+  }
 };
 
 init();
