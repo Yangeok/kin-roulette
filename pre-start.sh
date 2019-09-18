@@ -1,5 +1,6 @@
-npm i -g yarn && yarn
+#!/bin/bash
 
+npm i -g yarn && yarn
 echo ""
 echo "> Modules are installed"
 echo ""

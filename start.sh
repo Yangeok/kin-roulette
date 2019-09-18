@@ -50,6 +50,7 @@ echo ""
 echo "> Get roulettes"
 ID=$ID PW=$PW node getRoulette.js
 echo ""
+echo ""
 echo "> Use roulettes"
 ID=$ID PW=$PW node useRoulette.js
 echo ""
