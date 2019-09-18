@@ -85,7 +85,7 @@ const init = async () => {
   } catch (err) {
     console.log(err)
   } finally {
-    await browser.close()
+    // await browser.close()
   }
 };
 

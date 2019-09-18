@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo ""
-echo "--------------------"
-echo "<NAVER KIN ROULETTE>"
-echo "--------------------"
+echo "----------------------------------------------------------------------"
+echo "                         <NAVER KIN ROULETTE>"
+echo "----------------------------------------------------------------------"
 echo ""
 echo -n "> Username: "
 read ID
@@ -38,7 +38,6 @@ stty echo
 echo ""
 # echo "> Have a choice"
 # echo -n "( 1: Get roulettes / 2: Use roulettes ): "
-
 # read ENV
 # if [ $ENV -eq  1 ]
 # then
@@ -50,10 +49,9 @@ echo ""
 echo ""
 echo "> Get roulettes"
 ID=$ID PW=$PW node getRoulette.js
-
+echo ""
 echo "> Use roulettes"
 ID=$ID PW=$PW node useRoulette.js
-
 echo ""
 function pause(){
   read -p "$*"
