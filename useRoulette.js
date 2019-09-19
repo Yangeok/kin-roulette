@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-var ProgressBar = require('progress');
+const ProgressBar = require('progress');
 
 const width = 400,
   height = 838;
