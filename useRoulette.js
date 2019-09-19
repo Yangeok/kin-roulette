@@ -86,6 +86,7 @@ const init = async () => {
     console.log(err)
   } finally {
     // await browser.close()
+    await page.goto('https://m.me.naver.com/noti.nhn')
   }
 };
 
