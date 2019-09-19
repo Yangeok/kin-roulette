@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const ProgressBar = require('progress');
 
 const width = 400,
-  height = 838;
+  height = 1200;
 const options = {
   headless: false,
   slowMo: true,
