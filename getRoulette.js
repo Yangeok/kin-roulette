@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const ProgressBar = require('progress');
+const sec = require('./sec');
 
 const width = 400,
   height = 1200;
@@ -107,12 +108,13 @@ const init = async () => {
         width: 50
       });
       bar.tick(link.index);
+      await page.waitFor(sec(500, 750));
       await goToPost(page, link.url);
     }
   } catch (err) {
     console.log(err);
   } finally {
-    await browser.close()
+    await browser.close();
   }
 };
 
