@@ -57,4 +57,5 @@ echo ""
 function pause(){
   read -p "$*"
 }
+echo ""
 pause '> Press enter key...'
