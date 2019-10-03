@@ -31,13 +31,18 @@ const goToPost = async (page, link) => {
 const getLinks = async page => {
   return await page.evaluate(() => {
     const $ = window.$;
-    const res = $('a.item_socialplugin--2Rewd')
+    // const res = $('a.item_socialplugin--2Rewd')
+    const res = $('.spi_sns_share')
       .toArray()
       .map((link, index) => {
         return {
           url: $(link)
             .attr('data-oninitialize')
-            .split(`'`)[1],
+            .split('url:')[1]
+            .split(',title')[0]
+            .replace(/\'/g, ''),
+          // .attr('data-oninitialize')
+          // .split(`'`)[1],
           index
         };
       });
